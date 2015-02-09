@@ -1,6 +1,7 @@
 <?php
 class Clients extends Entities{
 	public static $tablename = 'clients';
+	public static $entityname = 'client';
 }
 class Client extends Entity{
 	public function __construct( $data ){
