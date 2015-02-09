@@ -37,7 +37,6 @@ $klein->respond('GET', '/home', function(){
 $klein->respond('GET', '/apis', function( $request, $response, $service, $app ){
 	echo clients()->classname();
 	echo clients()->tablename();
-	echo client(['o'=>1])->tablename();
 });
 
 $klein->dispatch();

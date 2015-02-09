@@ -3,10 +3,12 @@ class Entity{
 	public static $tablename;
 	public $ID = null;
 
-	public function __construct( $data ){
+	public function __construct( $ID, $data ){
 		foreach( $data as $key => $value ){
 			$this->$key = $value;
 		}
+
+		$this->ID = $ID;
 	}
 
 	public function tablename(){
@@ -32,15 +34,14 @@ class Entities extends Singleton{
 		call_user_func_array([$database, $name], $args);
 	}
 	public function tablename(){
-		return static::$tablename;
+		return strtolower( $this->classname() );
 	}
 	public function entityname(){
 		return static::$entityname;
 	}
 	public function entity( $ID, $attrs ){
 		$entityname = $this->entityname();
-		$entity = new $entityname( $attrs );
-		$entity->ID = $ID;
+		$entity = new $entityname( $ID, $attrs );
 		return $entity;
 	}
 
