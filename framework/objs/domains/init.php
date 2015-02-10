@@ -8,5 +8,3 @@ class Domain extends Entity{
 	}
 }
 
-function domains(){ return Domains::instance(); }
-Domain::$tablename = domains()->tablename();

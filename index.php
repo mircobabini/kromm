@@ -11,21 +11,16 @@ define( 'DIR_OBJS', DIR_FW.'/objs' );
 require DIR_FW.'/utils.php';
 require DIR_LIBS.'/entities.php';
 
-// init database
-global $database;
-$database = new medoo([
-	'database_type' => 'mysql',
-	'database_name' => 'crm',
-	'server' => 'localhost',
-	'username' => 'root',
-	'password' => 'mysql',
-]);
+define('DB_NAME', 'crm');
+define('DB_USER', 'root');
+define('DB_PASS', 'mysql');
+define('DB_HOST', 'localhost');
 
 // init controllers
-$entities = [ 'clients' ];
-foreach( $entities as $entity ){
-	require_once DIR_OBJS.'/'.$entity.'/init.php';
-}
+// $entities = [ 'clients' ];
+// foreach( $entities as $entity ){
+// 	require_once DIR_OBJS.'/'.$entity.'/init.php';
+// }
 
 // init router
 global $klein;
@@ -49,8 +44,8 @@ $klein->respond('GET', '/api/clients', function(){
 });
 
 $klein->respond('GET', '/apis', function( $request, $response, $service, $app ){
-	echo clients()->classname();
-	echo clients()->tablename();
+	echo e('clients')->classname();
+	echo e('clients')->tablename();
 });
 
 $klein->dispatch();

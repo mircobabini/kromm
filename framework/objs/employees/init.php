@@ -8,5 +8,3 @@ class Employee extends Entity{
 	}
 }
 
-function employees(){ return Employees::instance(); }
-Employee::$tablename = employees()->tablename();

@@ -2,6 +2,20 @@
 function controller( $ctr_name ){
 	return require dirname(__FILE__)."/ctrs/{$ctr_name}.php";
 }
+function database(){
+	static $database;
+	if( $database === null ){
+		$database = new medoo([
+			'database_type' => 'mysql',
+			'database_name' => DB_NAME,
+			'username' => DB_USER,
+			'password' => DB_PASS,
+			'server'   => DB_HOST,
+		]);
+	}
+
+	return $database;
+}
 
 function send_json( $data = array() ){
 	header('Content-Type: application/json');

@@ -7,6 +7,3 @@ class Product extends Entity{
 		parent::__construct( $data );
 	}
 }
-
-function products(){ return Products::instance(); }
-Product::$tablename = products()->tablename();

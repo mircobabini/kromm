@@ -20,8 +20,7 @@ class Entity{
 			$this->$attr = $value;
 		}
 
-		global $database;
-		$database->update( $this->tablename(), $attrs, ['ID' => $this->ID] );
+		database()->update( $this->tablename(), $attrs, ['ID' => $this->ID] );
 
 		return $this;
 	}
@@ -30,8 +29,7 @@ class Entities extends Singleton{
 	public function __call( $name, $args ){
 		array_unshift( $this->tablename(), $args );
 
-		global $database;
-		call_user_func_array([$database, $name], $args);
+		call_user_func_array([database(), $name], $args);
 	}
 	public function tablename(){
 		return strtolower( $this->classname() );
@@ -46,14 +44,12 @@ class Entities extends Singleton{
 	}
 
 	public function insert( $attrs ){
-		global $database;
-		$ID = $database->insert( $this->tablename(), $attrs );
+		$ID = database()->insert( $this->tablename(), $attrs );
 
 		return $this->entity( $ID, $attrs );
 	}
 	public function select( $where = null ){
-		global $database;
-		$rows = $database->select( $this->tablename(), '*', $where );
+		$rows = database()->select( $this->tablename(), '*', $where );
 
 		$entities = array();
 		foreach( $rows as $row ){
@@ -66,8 +62,6 @@ class Entities extends Singleton{
 		return $entities;
 	}
 	public function get( $id ){
-		global $database;
-
 		$entities = $this->select([ 'id' => $id ]);
 		return empty( $entities ) ? null : reset( $entities );
 	}
@@ -84,4 +78,22 @@ class Singleton{
 	public function classname(){
 		return get_called_class();
 	}
+}
+
+// function ENTITIES(){ return ENTITIES::instance(); }
+function e( $entitiesname ){
+	static $initentities;
+	if( ! isset( $initentities[$entitiesname] ) ){
+		$entitiespath = DIR_OBJS.'/'.$entitiesname.'/init.php';
+		if( ! file_exists( $entitiespath ) ){
+			throw new Exception( 'no entity: '.$entitiesname );
+		}
+
+		require_once $entitiespath;
+		// ENTITY::$tablename = ENTITIES()->tablename();
+		$entitiesname::$entityname = $entitiesname::instance()->tablename();
+		$initentities[$entitiesname] = $entitiesname::instance();
+	}
+
+	return $entitiesname::instance();
 }

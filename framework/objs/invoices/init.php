@@ -7,6 +7,3 @@ class Invoice extends Entity{
 		parent::__construct( $data );
 	}
 }
-
-function invoices(){ return Invoices::instance(); }
-Invoice::$tablename = invoices()->tablename();

@@ -7,6 +7,3 @@ class Client extends Entity{
 		parent::__construct( $data );
 	}
 }
-
-function clients(){ return Clients::instance(); }
-Client::$tablename = clients()->tablename();

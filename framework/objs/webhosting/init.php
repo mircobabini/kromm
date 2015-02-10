@@ -7,6 +7,3 @@ class Webhosting extends Entity{
 		parent::__construct( $data );
 	}
 }
-
-function webhostings(){ return Webhostings::instance(); }
-Webhosting::$tablename = webhostings()->tablename();
