@@ -3,13 +3,18 @@ function controller( $ctr_name ){
 	return require dirname(__FILE__)."/ctrs/{$ctr_name}.php";
 }
 
+function send_json( $data = array() ){
+	header('Content-Type: application/json');
+	echo json_encode( $data );
+	exit();
+}
 function send_json_response( $success, $data = array() ){
 	$response = array(
 		'success' => $success,
 		'data'    => $data,
 	);
 
-	return wp_send_json( $response );
+	return send_json( $data );
 }
 function send_json_error( $data = array() ){
 	if( is_string( $data ) ){

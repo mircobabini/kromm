@@ -2,12 +2,14 @@
 require 'vendor/autoload.php';
 
 define( 'DIR_ROOT', dirname(__FILE__) );
-define( 'DIR_CTRS', DIR_ROOT.'/ctrs' );
-define( 'DIR_LIBS', DIR_ROOT.'/libs' );
-define( 'DIR_OBJS', DIR_ROOT.'/objs' );
+define( 'DIR_FW', DIR_ROOT.'/framework' );
 
-require 'utils.php';
-require 'libs/entities.php';
+define( 'DIR_CTRS', DIR_FW.'/ctrs' );
+define( 'DIR_LIBS', DIR_FW.'/libs' );
+define( 'DIR_OBJS', DIR_FW.'/objs' );
+
+require DIR_FW.'/utils.php';
+require DIR_LIBS.'/entities.php';
 
 // init database
 global $database;
@@ -30,8 +32,20 @@ global $klein;
 $klein = new \Klein\Klein();
 
 // routes
-$klein->respond('GET', '/home', function(){
-	call_user_func_array( controller( 'home' ), func_get_args() );
+$klein->respond('GET', '/api/clients', function(){
+	$data = new StdClass();
+	// $data->aaData = clients()->select( '*' );
+	$data->aaData = [
+		array(
+			'name' => 'test',
+			'attr1' => '1',
+			'attr2' => '2',
+			'attr3' => '3',
+			'attr4' => '4',
+		)
+	];
+	
+	send_json( $data );
 });
 
 $klein->respond('GET', '/apis', function( $request, $response, $service, $app ){

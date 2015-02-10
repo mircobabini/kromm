@@ -65,6 +65,12 @@ class Entities extends Singleton{
 
 		return $entities;
 	}
+	public function get( $id ){
+		global $database;
+
+		$entities = $this->select([ 'id' => $id ]);
+		return empty( $entities ) ? null : reset( $entities );
+	}
 }
 class Singleton{
 	public static function instance(){
